@@ -1,0 +1,54 @@
+<div class="example-container mat-elevation-z8">
+
+  <form [formGroup]="form">
+    <table mat-table [dataSource]="animals" #animalsTable>
+
+      <ng-container matColumnDef="id" sticky>
+        <th mat-header-cell class="id" *matHeaderCellDef>Id</th>
+        <td mat-cell *matCellDef="let row">
+          <span [textContent]="row.id">
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container *ngFor="let column of columns">
+        <ng-container *ngIf="column != 'id' && column != 'actions'" matColumnDef={{column}}>
+          <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-form-field *ngIf="row.isEdit">
+              <mat-label>{{column}}</mat-label>
+              <input matInput [formControl]=form.controls[column]>
+            </mat-form-field>
+            <span *ngIf="!row.isEdit" [textContent]="row[column]"></span>
+          </td>
+        </ng-container>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" stickyEnd>
+        <th mat-header-cell class="actions" *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <button *ngIf="!row.isEdit" class="button-width" mat-button (click)="handleRowEditClick(row)">
+            <span>Edit</span>
+          </button>
+          <button *ngIf="!row.isEdit" class="button-width" mat-button (click)="handleRowDeleteClick(row)" color="green">
+            <span>Delete</span>
+          </button>
+          <button *ngIf="row.isEdit" class="button-width" mat-button (click)="handleRowSaveClick(row)">
+            <span>Save</span>
+          </button>
+          <button *ngIf="row.isEdit" class="button-width" mat-button (click)="handleRowCancelClick(row)">
+            <span>Cancel</span>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns" [class.editable]="row.isEdit"></tr>
+    </table>
+  </form>
+</div>
+<div class="panel">
+  <button mat-mini-fab color="warn" (click)="addRow()">
+    <span>Add</span>
+  </button>
+</div>

@@ -1,0 +1,93 @@
+:host {
+  .example-container {
+    width: 2550px;
+    max-width: 100%;
+    overflow: revert;
+  }
+  table {
+    .mat-header-row {
+      height: 35px;
+      min-height: 35px;
+    }
+    .mat-table-sticky {
+      border-right: 1px solid rgba(255,255,255,.44);
+    }
+    tr {
+      &.mat-header-row {
+        height: 35px;
+        min-height: 35px;
+      }
+      th {
+        &.mat-header-cell {
+          padding-left: 10px;
+          width: 100% !important;
+          &:first-of-type {
+            padding-left: 24px;
+          }
+  
+        }
+        &.mat-table-sticky {
+          border-left: 1px solid rgba(255,255,255,.44);
+        }
+        :first-of-type {
+          padding-left: 10px;
+        }
+      }
+    }
+    td {
+      &.mat-cell {
+        min-width: 100%;
+        white-space: nowrap;
+        padding-right: 5px;
+        border-left: 1px solid rgba(255,255,255,.12);
+        &.mat-table-sticky {
+          border-left: 1px solid rgba(255,255,255,.44);
+        }
+        &.mat-column-id {
+          width: 60px;
+          padding: 0 10px;
+          margin-left: 10px;
+        }
+        :first-of-type {
+          padding-left: 10px;
+        }
+      }
+    }  
+  }
+  .editable {
+    border: colid 1px color #f6f6f6;
+  }
+  .panel {
+    button {
+    position: fixed;
+    bottom: 3px;
+    right: 5px;
+    z-index: 10;
+    }
+  }
+  .button-width {
+    width: 80px;
+  }
+  .actions {
+    width: 165px;
+    min-width: 165px;
+  }
+  ::ng-deep .mat-form-field-infix {
+    width: 100%;
+    padding-bottom: 0px;
+  }
+  ::ng-deep .mat-input-element {
+    caret-color: green; 
+  }
+  ::ng-deep .mat-focused .mat-form-field-label {
+    opacity: 1;
+    color: green;
+  }
+   ::ng-deep .mat-form-field-underline {
+    background-color: green;
+  } 
+  ::ng-deep .mat-form-field-ripple {
+    background-color: green !important;
+  }
+
+}

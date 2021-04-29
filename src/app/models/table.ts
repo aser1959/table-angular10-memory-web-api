@@ -1,0 +1,37 @@
+export interface Animal {
+  id?: number;
+  newGroupId?: number;
+  newGroupName?: string;
+  currentGroupId?: number;
+  currentGroupName?: string;
+  healthIndex?: number;
+  heatIndexPeak?: string;
+  destinationGroup?: number;
+  destinationGroupName?: string;
+  birthDateCalculated?: boolean;
+  calvingEase?: number;
+  oldLactationNumber?: number;
+  endDate?: number;
+  minValueDateTime?: number;
+  alertType?: string;
+  duration?: number;
+  originalStartDateTime?: number;
+  endDateTime?: number;
+  daysInPregnancy?: number;
+  type?: string;
+  cowId?: number;
+  cowEntryStatus?: any;
+  animalId?: string;
+  deletable?: boolean;
+  lactationNumber?: number;
+  daysInLactation?: number;
+  ageInDays?: number;
+  startDateTime?: number;
+  reportingDateTime?: number;
+  newborns?: any;
+  sire?: any;
+  breedingNumber?: number;
+  isOutOfBreedingWindow?: boolean;
+  interval?: number;
+  isEdit?: boolean;
+}
