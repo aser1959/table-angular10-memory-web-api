@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
+import { finalize } from 'rxjs/operators';
 import { Animal } from '../models/table';
 import { TableService } from '../service/table.service';
 import { AddAnimalComponent } from './add-animal/add-animal.component';
@@ -167,10 +168,14 @@ export class TableComponent implements OnInit, OnDestroy {
   }
 
   handleRowSaveClick(row: Animal): void {
-    row.isEdit = false;
-    this.isEdit = false;
     const editRow = this.form.getRawValue();
-    this.subscriptions.push(this.tableService.updateRowTable(editRow).subscribe(
+    this.subscriptions.push(this.tableService.updateRowTable(editRow).pipe(
+      finalize(() => {
+        this.form.reset();
+        row.isEdit = false;
+        this.isEdit = false;
+      })
+    ).subscribe(
       () => {
         this.animals.forEach(a => {
           if (a.id === editRow.id) {
@@ -187,11 +192,10 @@ export class TableComponent implements OnInit, OnDestroy {
   }
 
   handleRowCancelClick(row: Animal): void {
+    this.form.reset();
     this.isEdit = false;
     if (row) {
       row.isEdit = false;
-    } else {
-      this.form.reset();
     }
   }
 

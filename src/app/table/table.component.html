@@ -23,7 +23,7 @@
             <span *ngIf="!row.isEdit" [textContent]="row[column]"></span>
           </td>
           <td mat-footer-cell *matFooterCellDef>
-            <mat-form-field>
+            <mat-form-field *ngIf="!isEdit" >
               <mat-label>{{column}}</mat-label>
               <input matInput [formControl]=form.controls[column]>
             </mat-form-field>            
@@ -48,13 +48,14 @@
           </button>
         </td>
         <td mat-footer-cell *matFooterCellDef>
+          <ng-container *ngIf="!isEdit">
           <button class="button-width" mat-button (click)="addRow()">
             <span>Add</span>
           </button>
           <button class="button-width" mat-button (click)="handleRowCancelClick()">
             <span>Cancel</span>
           </button>
-
+          </ng-container>
         </td>  
       </ng-container>
 
