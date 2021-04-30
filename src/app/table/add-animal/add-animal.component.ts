@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -7,13 +7,9 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './add-animal.component.html',
   styleUrls: ['./add-animal.component.scss']
 })
-export class AddAnimalComponent {
+export class AddAnimalComponent implements OnDestroy {
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: string[],
-    private fb: FormBuilder,
-  ) {
-  }
+  formChanged = false;
 
   form = this.fb.group({
     newGroupId: [null],
@@ -50,5 +46,20 @@ export class AddAnimalComponent {
     isOutOfBreedingWindow: [null],
     interval: [null],
   });
+  subscriptions = this.form.valueChanges.subscribe(v => this.handleFormChanged());
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: string[],
+    private fb: FormBuilder,
+  ) {
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  private handleFormChanged() {
+    this.formChanged = true;
+  }
 
 }

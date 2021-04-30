@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
-import { Subscription } from 'rxjs';
 import { Animal } from '../models/table';
 import { TableService } from '../service/table.service';
 import { AddAnimalComponent } from './add-animal/add-animal.component';
@@ -13,6 +12,8 @@ import { AddAnimalComponent } from './add-animal/add-animal.component';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit, OnDestroy {
+  
+  private formChanged = false;
 
   @ViewChild('animalsTable', {static: true}) animalsTable: MatTable<any>;
 
@@ -91,7 +92,9 @@ export class TableComponent implements OnInit, OnDestroy {
     isOutOfBreedingWindow: [null],
     interval: [null],
   });
-  subscriptions: Subscription = new Subscription();
+  subscriptions = [
+    this.form.valueChanges.subscribe(v => this.handleFormChanged()),
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -105,16 +108,7 @@ export class TableComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
-  }
-
-  getTable(): void {
-    this.subscriptions.add(this.tableService.getAnimals().subscribe(animals => {
-      animals.forEach(e => {
-        e.isEdit = false;
-      });
-      this.animals = animals;
-    }));
+    this.subscriptions.forEach(s => s.unsubscribe());
   }
 
   handleRowEditClick(row: Animal): void {
@@ -165,7 +159,7 @@ export class TableComponent implements OnInit, OnDestroy {
     if (this.isEdit) {
       return;
     }
-    this.subscriptions.add(this.tableService.deleteRowTable(row.id).subscribe(
+    this.subscriptions.push(this.tableService.deleteRowTable(row.id).subscribe(
       () => {
         this.animals = this.animals.filter(e => e.id !== row.id);
       })
@@ -176,7 +170,7 @@ export class TableComponent implements OnInit, OnDestroy {
     row.isEdit = false;
     this.isEdit = false;
     const editRow = this.form.getRawValue();
-    this.subscriptions.add(this.tableService.updateRowTable(editRow).subscribe(
+    this.subscriptions.push(this.tableService.updateRowTable(editRow).subscribe(
       () => {
         this.animals.forEach(a => {
           if (a.id === editRow.id) {
@@ -192,12 +186,16 @@ export class TableComponent implements OnInit, OnDestroy {
     );
   }
 
-  handleRowCancelClick(row): void {
-    row.isEdit = false;
+  handleRowCancelClick(row: Animal): void {
     this.isEdit = false;
+    if (row) {
+      row.isEdit = false;
+    } else {
+      this.form.reset();
+    }
   }
 
-  addRow(): void {
+  addRowModal(): void {
     if (this.isEdit) {
       return;
     }
@@ -206,15 +204,41 @@ export class TableComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.subscriptions.add(this.tableService.addRowTable(result.getRawValue()).subscribe(
-          animal => {
-            animal.isEdit = false;
-            this.animals.push(animal);
-            this.animalsTable.renderRows();
-          })
-        );
+        this.addAnimal(result);
       }
     });
+  }
+
+  addRow(): void {
+    if (!this.formChanged) {
+      return;
+    }
+    this.addAnimal(this.form);
+  }
+
+  private getTable(): void {
+    this.subscriptions.push(this.tableService.getAnimals().subscribe(animals => {
+      animals.forEach(e => {
+        e.isEdit = false;
+      });
+      this.animals = animals;
+    }));
+  }
+
+  private addAnimal(alimalForm: any): void {
+    const animal = alimalForm.getRawValue();
+    this.subscriptions.push(this.tableService.addRowTable(animal).subscribe(
+      a => {
+        this.animals.push(a);
+        this.form.reset();
+        this.formChanged = false;
+        this.animalsTable.renderRows();
+      })
+    );
+  }
+
+  private handleFormChanged() {
+    this.formChanged = true;
   }
 
 }

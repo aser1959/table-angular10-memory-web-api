@@ -14,6 +14,9 @@
       border-right: 1px solid rgba(255,255,255,.44);
       }
     }
+    .mat-table-sticky-border-elem-right {
+      border-left: 1px solid rgba(255,255,255,.44);
+    }
     tr {
       &.mat-header-row {
         height: 35px;
@@ -51,8 +54,19 @@
           padding: 0 10px;
           margin-left: 10px;
         }
+        &.mat-column-actions {
+          width: 165px;
+          min-width: 165px;
+        }
         :first-of-type {
           padding-left: 10px;
+        }
+      }
+      &.mat-footer-cell {
+        &.mat-column-actions {
+          width: 165px;
+          min-width: 165px;
+          z-index: 20 !important;
         }
       }
     }  
@@ -70,10 +84,6 @@
   }
   .button-width {
     width: 80px;
-  }
-  .actions {
-    width: 165px;
-    min-width: 165px;
   }
   ::ng-deep .mat-form-field-infix {
     width: 100%;
