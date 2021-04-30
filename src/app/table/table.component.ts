@@ -8,7 +8,7 @@ import { TableService } from '../service/table.service';
 import { AddAnimalComponent } from './add-animal/add-animal.component';
 
 @Component({
-  selector: 'app-table',
+  selector: 'app-root',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })

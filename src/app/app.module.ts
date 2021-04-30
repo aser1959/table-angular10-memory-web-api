@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InterceptorService } from './service/interceptor.service';
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -18,7 +17,6 @@ import { AddAnimalComponent } from './table/add-animal/add-animal.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
     TableComponent,
     AddAnimalComponent,
   ],
@@ -45,6 +43,6 @@ import { AddAnimalComponent } from './table/add-animal/add-animal.component';
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [TableComponent]
 })
 export class AppModule { }
