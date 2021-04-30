@@ -12,7 +12,7 @@ import { AddAnimalComponent } from './add-animal/add-animal.component';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit, OnDestroy {
-  
+
   private formChanged = false;
 
   @ViewChild('animalsTable', {static: true}) animalsTable: MatTable<any>;
@@ -237,7 +237,7 @@ export class TableComponent implements OnInit, OnDestroy {
     );
   }
 
-  private handleFormChanged() {
+  private handleFormChanged(): void {
     this.formChanged = true;
   }
 

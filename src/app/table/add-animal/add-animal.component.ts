@@ -58,7 +58,7 @@ export class AddAnimalComponent implements OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  private handleFormChanged() {
+  private handleFormChanged(): void {
     this.formChanged = true;
   }
 
