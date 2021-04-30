@@ -10,7 +10,9 @@
       min-height: 35px;
     }
     .mat-table-sticky {
+      &:first-of-type {
       border-right: 1px solid rgba(255,255,255,.44);
+      }
     }
     tr {
       &.mat-header-row {
@@ -20,6 +22,7 @@
       th {
         &.mat-header-cell {
           padding-left: 10px;
+          padding-right: 5px;
           width: 100% !important;
           &:first-of-type {
             padding-left: 24px;
