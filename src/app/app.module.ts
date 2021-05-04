@@ -13,12 +13,15 @@ import { TableComponent } from './table/table.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AddAnimalComponent } from './table/add-animal/add-animal.component';
+import { ConfirmComponent } from './shared/confirm/confirm.component';
 
 @NgModule({
   declarations: [
     TableComponent,
     AddAnimalComponent,
+    ConfirmComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,8 @@ import { AddAnimalComponent } from './table/add-animal/add-animal.component';
     MatInputModule,
     MatDialogModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
     MatDialogModule

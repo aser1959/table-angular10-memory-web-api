@@ -1,6 +1,7 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Animal } from 'src/app/models/table';
 
 @Component({
   selector: 'app-add-animal',
@@ -46,7 +47,7 @@ export class AddAnimalComponent implements OnDestroy {
     isOutOfBreedingWindow: [null],
     interval: [null],
   });
-  subscriptions = this.form.valueChanges.subscribe(v => this.handleFormChanged());
+  subscriptions = this.form.valueChanges.subscribe(v => this.handleFormChanged(v));
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: string[],
@@ -58,8 +59,15 @@ export class AddAnimalComponent implements OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  private handleFormChanged(): void {
-    this.formChanged = true;
+  private handleFormChanged(values: Animal): void {
+    this.formChanged = false;
+    for (const key in values) {
+      if (Object.prototype.hasOwnProperty.call(values, key)) {
+        if (values[key] !== null && values[key] !== '') {
+          this.formChanged = true;
+        }
+      }
+    }
   }
 
 }

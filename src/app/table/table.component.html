@@ -1,4 +1,4 @@
-<div class="example-container mat-elevation-z8">
+<div [hidden]="!animals" class="example-container mat-elevation-z8">
 
   <form [formGroup]="form">
     <table mat-table [dataSource]="animals" #animalsTable>
@@ -49,7 +49,7 @@
         </td>
         <td mat-footer-cell *matFooterCellDef>
           <ng-container *ngIf="!isEdit">
-          <button class="button-width" mat-button (click)="addRow()">
+          <button class="button-width" mat-button (click)="addRow()" [disabled]="!formChanged">
             <span>Add</span>
           </button>
           <button class="button-width" mat-button (click)="handleRowCancelClick()">
@@ -60,13 +60,16 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: columns" [class.editable]="row.isEdit"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns" [class.editable]="row.isEdit" (dblclick)="handleRowEditClick(row)"></tr>
       <tr mat-footer-row *matFooterRowDef="columns"></tr>
     </table>
   </form>
-</div>
 <div class="panel">
   <button *ngIf="!isEdit" mat-mini-fab color="warn" (click)="addRowModal()">
     <span>Add</span>
   </button>
+</div>
+</div>
+<div *ngIf="!animals" class="custom-spinner">
+  <mat-spinner></mat-spinner>
 </div>

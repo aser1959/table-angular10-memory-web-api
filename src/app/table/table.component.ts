@@ -6,6 +6,7 @@ import { finalize } from 'rxjs/operators';
 import { Animal } from '../models/table';
 import { TableService } from '../service/table.service';
 import { AddAnimalComponent } from './add-animal/add-animal.component';
+import { ConfirmComponent } from '../shared/confirm/confirm.component';
 
 @Component({
   selector: 'app-root',
@@ -94,7 +95,7 @@ export class TableComponent implements OnInit, OnDestroy {
     interval: [null],
   });
   subscriptions = [
-    this.form.valueChanges.subscribe(v => this.handleFormChanged()),
+    this.form.valueChanges.subscribe(v => this.handleFormChanged(v)),
   ];
 
   constructor(
@@ -160,11 +161,20 @@ export class TableComponent implements OnInit, OnDestroy {
     if (this.isEdit) {
       return;
     }
-    this.subscriptions.push(this.tableService.deleteRowTable(row.id).subscribe(
-      () => {
-        this.animals = this.animals.filter(e => e.id !== row.id);
-      })
-    );
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      width: '250px',
+      data: { title: 'Confirm', text: 'Want to delete a row?' }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.subscriptions.push(this.tableService.deleteRowTable(row.id).subscribe(
+          () => {
+            this.animals = this.animals.filter(e => e.id !== row.id);
+          })
+        );
+
+      }
+    });
   }
 
   handleRowSaveClick(row: Animal): void {
@@ -235,14 +245,20 @@ export class TableComponent implements OnInit, OnDestroy {
       a => {
         this.animals.push(a);
         this.form.reset();
-        this.formChanged = false;
         this.animalsTable.renderRows();
       })
     );
   }
 
-  private handleFormChanged(): void {
-    this.formChanged = true;
+  private handleFormChanged(values: Animal): void {
+    this.formChanged = false;
+    for (const key in values) {
+      if (Object.prototype.hasOwnProperty.call(values, key)) {
+        if (values[key] !== null && values[key] !== '') {
+          this.formChanged = true;
+        }
+      }
+    }
   }
 
 }

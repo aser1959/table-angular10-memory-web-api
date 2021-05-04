@@ -111,5 +111,12 @@
   ::ng-deep .mat-form-field-ripple {
     background-color: green !important;
   }
-
+  .custom-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+  ::ng-deep .custom-spinner circle{   
+    stroke: #0CC20C;
+  }
 }
